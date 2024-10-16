@@ -9,6 +9,9 @@ class Airplane(models.Model):
     class Meta:
         db_table = 'airplane'
 
+    def __str__(self):
+        return f"{self.model} — ID: {self.airplaneid}"
+
 class Airport(models.Model):
     airportid = models.AutoField(primary_key = True)
     name = models.CharField(max_length = 50)
@@ -18,6 +21,9 @@ class Airport(models.Model):
     class Meta:
         db_table = 'airport'
 
+    def __str__(self):
+        return f"{self.name} — ID: {self.airportid}"
+
 class Baggage(models.Model):
     baggageid = models.AutoField(primary_key = True)
     weight = models.DecimalField(max_digits = 5, decimal_places = 2)
@@ -25,6 +31,9 @@ class Baggage(models.Model):
 
     class Meta:
         db_table = 'baggage'
+    
+    def __str__(self):
+        return f"ID: {self.baggageid}"
 
 class Flight(models.Model):
     flightid = models.AutoField(primary_key = True)
@@ -37,6 +46,9 @@ class Flight(models.Model):
     class Meta:
         db_table = 'flight'
 
+    def __str__(self):
+        return f"ID: {self.flightid}"
+
 class Passenger(models.Model):
     passengerid = models.AutoField(primary_key = True)
     name = models.TextField()
@@ -46,13 +58,18 @@ class Passenger(models.Model):
     class Meta:
         db_table = 'passenger'
 
+    def __str__(self):
+        return f"ID: {self.passengerid}"
+
 class Position(models.Model):
-    positionid = models.AutoField(primary_key = True)
-    positionname = models.CharField(max_length = 45)
+    positionname = models.CharField(max_length=45, primary_key=True)
     salary = models.IntegerField()
 
     class Meta:
         db_table = 'position'
+    
+    def __str__(self):
+        return f"{self.positionname}"
 
 class Route(models.Model):
     routeid = models.AutoField(primary_key = True)
@@ -65,16 +82,22 @@ class Route(models.Model):
     class Meta:
         db_table = 'route'
 
+    def __str__(self):
+        return f"{self.departure} — {self.destination} ID: {self.routeid}"
+
 class Staff(models.Model):
-    staffid = models.AutoField(primary_key = True)
-    name = models.CharField(max_length = 55)
-    position = models.ForeignKey('Position', on_delete = models.CASCADE, db_column = 'positionid')
-    flight = models.ForeignKey('Flight', on_delete = models.CASCADE, db_column = 'flightid')
+    staffid = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=55)
+    position = models.ForeignKey('Position', on_delete=models.CASCADE, db_column='PositionName')
+    flight = models.ForeignKey('Flight', on_delete=models.CASCADE, db_column='flightid')
 
     class Meta:
         db_table = 'staff'
         verbose_name = 'Staff'
         verbose_name_plural = 'Staff'
+    
+    def __str__(self):
+        return f"{self.name} ID: {self.staffid}"
 
 class Ticket(models.Model):
     ticketid = models.AutoField(primary_key = True)
@@ -85,3 +108,6 @@ class Ticket(models.Model):
 
     class Meta:
         db_table = 'ticket'
+
+    def __str__(self):
+        return f"ID: {self.ticketid}"
